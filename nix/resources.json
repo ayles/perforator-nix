@@ -1,0 +1,42 @@
+{
+    "x86_64-linux": {
+        "ya": {
+            "url": "https://devtools-registry.s3.yandex.net/7914213425",
+            "hash": "sha256-gHfR4SIlufmxIDd6aEcQAkqaBb/j/xg+OrzbVwQoSXI="
+        },
+        "tools": {
+            "243881345": {
+                "url": "https://devtools-registry.s3.yandex.net/243881345",
+                "hash": "sha256-FXnRYfDA2N4SVXZQ4B788lxrAjdhqpMh7MmR2Cfq32o="
+            },
+            "7336031045": {
+                "url": "https://devtools-registry.s3.yandex.net/7336031045",
+                "hash": "sha256-4+jvfPbrRN1G6bLc0PUPK7llfnoV3JGysAxpGCGGZ7E="
+            },
+            "7793618601": {
+                "url": "https://devtools-registry.s3.yandex.net/7793618601",
+                "hash": "sha256-qHNIW+sB49o5dOovQwBYEK4C0elSDc+/KyBrPzppXhc="
+            },
+            "6608864313": {
+                "url": "https://devtools-registry.s3.yandex.net/6608864313",
+                "hash": "sha256-B5clMRfSyMcG6Mfwy6gVAXKHTCAW+R3bSF2mycLUBvU="
+            },
+            "7599469156": {
+                "url": "https://devtools-registry.s3.yandex.net/7599469156",
+                "hash": "sha256-vp+/HQZvP0Th1eTrq4Tnl96QQ+htuKlkB388ir/h2PQ="
+            },
+            "4748318935": {
+                "url": "https://devtools-registry.s3.yandex.net/4748318935",
+                "hash": "sha256-DTiDlfcuZP26rA1NiFfVPwcM1o3aGUt0FGaLVS8r+kk="
+            },
+            "2989598506": {
+                "url": "https://devtools-registry.s3.yandex.net/2989598506",
+                "hash": "sha256-XJrYemKGgGDKP1qLYk1K8n24pkBpg8/OJpr22BSpBTE="
+            },
+            "7900624427": {
+                "url": "https://devtools-registry.s3.yandex.net/7900624427",
+                "hash": "sha256-h3CcRbw/X0C+eVdezTkAFlkfwFaMYV9tsT7h+sgLSh0="
+            }
+        }
+    }
+}

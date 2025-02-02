@@ -1,0 +1,14 @@
+name: "Update"
+on:
+  schedule:
+  - cron: "0 0 * * *"
+jobs:
+  update:
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v4
+    - uses: cachix/install-nix-action@v27
+      with:
+        github_access_token: ${{ secrets.GITHUB_TOKEN }}
+    - run: nix-shell -E 'let flake = (builtins.getFlake (toString ./.)); in (import "${flake.inputs.nixpkgs}/maintainers/scripts/update.nix") { include-overlays = [flake.overlays.default]; package = "perforator"; skip-prompt = "true"; }' --show-trace
+    - uses: stefanzweifel/git-auto-commit-action@v5
