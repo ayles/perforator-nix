@@ -4,6 +4,9 @@ on:
   push:
 jobs:
   build:
+    # buildFHSEnv (bwrap) does not work on ubuntu > 23 by default
+    # https://github.com/DevToys-app/DevToys/issues/1198
+    # https://ubuntu.com/blog/ubuntu-23-10-restricted-unprivileged-user-namespaces
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v4

@@ -13,6 +13,7 @@ import urllib.request
 
 REGISTRY_ENDPOINT = "https://devtools-registry.s3.yandex.net"
 
+# Parameters below are hard-coded, it only takes moving them to the script arguments and it will be possible to reuse it for packaging anything built with ya.
 known_platforms = [
     ("x86_64-linux", "linux"),
 ]
@@ -37,32 +38,32 @@ def remote_sha256(url):
     return base64.b64encode(hash.digest()).decode()
 
 
-def postprocess_sbr(sbr):
+def postprocess_sbr(sbr, name=None):
     url = f"{REGISTRY_ENDPOINT}/{sbr}"
 
     return {
         "url": url,
         "hash": f"sha256-{remote_sha256(url)}",
-    }
+    } | ({"name": name} if name is not None else {})
 
 
 def postprocess_resources(entries, platform):
     out = dict()
 
-    def add_resource(resource):
+    def add_resource(resource, name):
         if not resource.startswith("sbr:"):
             return
 
         sbr = resource.removeprefix("sbr:")
-        out[sbr] = postprocess_sbr(sbr)
+        out[sbr] = postprocess_sbr(sbr, name)
 
     for entry in entries:
         if "resource" in entry:
-            add_resource(entry["resource"])
+            add_resource(entry["resource"], entry.get("pattern"))
         elif "resources" in entry:
             for platform_entry in entry["resources"]:
                 if platform_entry["platform"].lower() == platform:
-                    add_resource(platform_entry["resource"])
+                    add_resource(platform_entry["resource"], entry.get("pattern"))
 
     return out
 
@@ -98,7 +99,7 @@ if __name__ == '__main__':
             ya_map = eval(ya_map_text)
 
             for platform, ya_platform in known_platforms:
-                resources[platform]["ya"] = postprocess_sbr(ya_map["data"][ya_platform]["urls"][0].removeprefix(f"{REGISTRY_ENDPOINT}/"))
+                resources[platform]["ya"] = postprocess_sbr(ya_map["data"][ya_platform]["urls"][0].removeprefix(f"{REGISTRY_ENDPOINT}/"), "ya")
 
 
     for platform, ya_platform in known_platforms:

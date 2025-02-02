@@ -9,11 +9,15 @@
 }:
 let
   fetch =
-    { url, hash }:
+    {
+      url,
+      hash,
+      name ? "unpack",
+    }:
     let
       src = fetchurl { inherit url hash; };
     in
-    runCommand "unpack" { } ''
+    runCommand name { } ''
       mkdir -p $out
       tar -xf ${src} -C $out
     '';
@@ -32,6 +36,8 @@ let
     "perforator/cmd/offline_processing"
     "perforator/cmd/proxy"
     "perforator/cmd/storage"
+    # For now web requires access to the network during a build process to fetch node modules.
+    # It is likely to be fixed soon.
     # "perforator/cmd/web"
   ];
 in
@@ -67,7 +73,7 @@ stdenvNoCC.mkDerivation rec {
         targetPkgs = pkgs: with pkgs; [ libxcrypt-legacy ];
       }
     }/bin/fhs ${writeShellScript "build" ''
-      # There is a way to hack it with tools cache (dir .ya/tools/v4) enabled, but it will require one more tool and additional commands to populate tc db
+      # There is a way to hack it with tools cache (dir .ya/tools/v4) enabled, but it will require one more tool and additional commands to populate tc db.
       ${ya}/ya-bin make -T --noya-tc -j $NIX_BUILD_CORES -o ./result ${lib.concatStringsSep " " targets}
     ''}
   '';
@@ -82,5 +88,7 @@ stdenvNoCC.mkDerivation rec {
       '') targets
     );
 
+  # It is possible to extract all resources from build system in pure way right before build, and even though they have ids and are immutable, we have no hashes declared for them.
+  # Here we search for a new tag, and if there is one - we update version and hash, extract info about all required resources, calc their hashes and write them to resources.json.
   passthru.updateScript = [ ./update.py ] ++ targets;
 }
