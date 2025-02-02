@@ -6,6 +6,7 @@
   runCommand,
   writeShellScript,
   fetchFromGitHub,
+  autoPatchelfHook,
 }:
 let
   fetch =
@@ -51,6 +52,8 @@ stdenvNoCC.mkDerivation rec {
     rev = version;
     sha256 = "sha256-VyMpuqMvxEB654fd9rY3pT4PHXUj/GhxTv8mRiV2YC4=";
   };
+
+  nativeBuildInputs = [ autoPatchelfHook ];
 
   configurePhase =
     ''
